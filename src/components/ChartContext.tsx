@@ -1,0 +1,77 @@
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import {
+  BarData,
+  IChartApi,
+  ISeriesApi,
+  LineData,
+  MouseEventHandler,
+  MouseEventParams,
+  SeriesDataItemTypeMap,
+  SeriesType,
+} from "lightweight-charts";
+import { ChartDefinition } from "./interfaces";
+
+export type ChartContextType = {
+  def?: ChartDefinition;
+  data?: Record<string, LineData[] | BarData[]>;
+  chart: IChartApi;
+  sources: Record<string, ISeriesApi<SeriesType>>;
+  paneRefs: HTMLElement[];
+  crosshair: MouseEventParams;
+  //  seriesManager: SeriesManager
+};
+
+export const ChartContext = React.createContext<ChartContextType | null>(null);
+
+interface ChartContextProviderProps {
+  def?: ChartDefinition;
+  data?: Record<string, LineData[] | BarData[]>;
+  chart: IChartApi;
+  sources: Record<string, ISeriesApi<SeriesType>>;
+  paneRefs: HTMLElement[];
+  children: any;
+}
+
+export const ChartContextProvider: React.FunctionComponent<
+  ChartContextProviderProps
+> = (props) => {
+  const { chart, def, data, sources = {} } = props;
+
+  const [crosshair, setCrosshairState] = useState<MouseEventParams>();
+
+  const handleCrosshairMoved: MouseEventHandler = useCallback(
+    (params) => {
+      if (!params.point || !params.time) {
+        return;
+      }
+      setCrosshairState(params);
+    },
+    [setCrosshairState]
+  );
+
+  useEffect(() => {
+    chart?.subscribeCrosshairMove(handleCrosshairMoved);
+    return () => {
+      chart?.unsubscribeCrosshairMove(handleCrosshairMoved);
+    };
+  }, [chart, handleCrosshairMoved]);
+
+  return (
+    <ChartContext.Provider
+      value={{
+        def: def,
+        data: data,
+        chart,
+        sources,
+        paneRefs: props.paneRefs,
+        crosshair,
+      }}
+    >
+      {props.children}
+    </ChartContext.Provider>
+  );
+};
+
+export const useChart = (): ChartContextType => {
+  return useContext(ChartContext);
+};
