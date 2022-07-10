@@ -17,11 +17,11 @@ export type ChartContextType = {
   chart: IChartApi;
   sources: Record<string, ISeriesApi<SeriesType>>;
   paneRefs: HTMLElement[];
-  crosshair: MouseEventParams;
+  crosshair?: MouseEventParams;
   //  seriesManager: SeriesManager
 };
 
-export const ChartContext = React.createContext<ChartContextType | null>(null);
+export const ChartContext = React.createContext<ChartContextType>();
 
 interface ChartContextProviderProps {
   def?: ChartDefinition;
