@@ -16,7 +16,7 @@ const histogram = generateHistogramData(1000, 9000);
 const markers: SeriesMarker<Time>[] = [];
 line1.forEach((line) => {
   const { time, value } = line;
-
+  const id = time.toString();
   const sellOptions = {
     position: "aboveBar" as SeriesMarkerPosition,
     color: "#f68410",
@@ -30,8 +30,9 @@ line1.forEach((line) => {
     text: "B",
   };
 
-  if (value > 24000) {
+  if (value > 21000) {
     markers.push({
+      id,
       time,
       ...sellOptions,
     });

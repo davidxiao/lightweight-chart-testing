@@ -46,6 +46,7 @@ export const Demo = (props: Props) => {
       pane.series.forEach((series) => {
         if (!chart) return;
         const { markers } = series;
+        console.log(`marker len=${markers?.length}`);
         const { type, ...options } = {
           ...series.options,
           pane: paneIdx,
@@ -85,19 +86,20 @@ export const Demo = (props: Props) => {
     setPaneRefs(chart.getPaneElements());
   }, [chart, seriesReady]);
 
-  /*
   useEffect(() => {
-    var container = document.createElement("div");
-    document.body.appendChild(container);
-    var toolTipWidth = 80;
-    var toolTipHeight = 80;
-    var toolTipMargin = 15;
+    console.log("try to subscribeCrosshairMove");
+    const toolTipWidth = 80;
+    const toolTipHeight = 80;
+    const toolTipMargin = 15;
 
-    var toolTip = document.createElement("div");
+    const toolTip = document.createElement("div");
     toolTip.className = "floating-tooltip-2";
+    const container = containerRef.current;
+    if (!container) return;
     container.appendChild(toolTip);
 
     chart?.subscribeCrosshairMove(function (param) {
+      console.log(`param:${JSON.stringify(param)}`);
       if (
         param.point === undefined ||
         !param.time ||
@@ -107,26 +109,39 @@ export const Demo = (props: Props) => {
         param.point.y > container.clientHeight
       ) {
         toolTip.style.display = "none";
+        console.log("don't display");
       } else {
+        console.log("display");
         const dateStr = new Date().toString();
         toolTip.style.display = "block";
-        var price = 1200;
+        const price = 1200;
         toolTip.innerHTML =
           '<div style="color: #009688">Apple Inc.</div><div style="font-size: 24px; margin: 4px 0px; color: #21384d">' +
           Math.round(100 * price) / 100 +
           '</div><div style="color: #21384d">' +
           dateStr +
           "</div>";
-        var coordinate = series.priceToCoordinate(price);
+
+        const seriesData = param.seriesData;
+        // console.log(`seriesData:`);
+        // console.log(seriesData);
+        const series = param.hoveredSeries;
+        // console.log(`series:`);
+        // console.log(series);
+        const coordinate = series?.priceToCoordinate(price) || 100;
+        // console.log(`param.hoveredMarkerId=${param.hoveredMarkerId}`);
+        // console.log(`param.paneIndex=${param.paneIndex}`);
+        // console.log(`########## .  ###### coordinate=${coordinate}`);
         var shiftedCoordinate = param.point.x - 50;
-        if (coordinate === null) {
+
+        if (!coordinate) {
           return;
         }
         shiftedCoordinate = Math.max(
           0,
           Math.min(container.clientWidth - toolTipWidth, shiftedCoordinate)
         );
-        var coordinateY =
+        const coordinateY =
           coordinate - toolTipHeight - toolTipMargin > 0
             ? coordinate - toolTipHeight - toolTipMargin
             : Math.max(
@@ -137,11 +152,11 @@ export const Demo = (props: Props) => {
                 )
               );
         toolTip.style.left = shiftedCoordinate + "px";
-        toolTip.style.top = coordinateY + "px";
+        toolTip.style.top = (param.paneIndex || 0) * 200 + coordinateY + "px";
       }
     });
   }, [chart]);
-  */
+
   return (
     <div
       ref={containerRef}
