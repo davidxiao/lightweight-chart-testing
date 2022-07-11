@@ -6,6 +6,7 @@ export const Legend = (props: PortalData) => {
   return ReactDOM.createPortal(
     <div>
       <div>Legend</div>
+      <div>Legend</div>
     </div>,
     paneRef
   );
