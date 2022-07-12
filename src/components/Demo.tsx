@@ -99,7 +99,8 @@ export const Demo = (props: Props) => {
     container.appendChild(toolTip);
 
     chart?.subscribeCrosshairMove(function (param) {
-      console.log(`param:${JSON.stringify(param)}`);
+      console.log(`param`);
+      console.log(param);
       if (
         param.point === undefined ||
         !param.time ||
