@@ -5938,9 +5938,9 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-"lightweight-charts@git+https://github.com/ntf/lightweight-charts.git":
+"lightweight-charts@https://github.com/davidxiao/lightweight-charts/archive/refs/tags/v3.7.0.tar.gz":
   version "4.0.0"
-  resolved "git+https://github.com/ntf/lightweight-charts.git#a2a2223e7e44fb95b80e7a42796ced0daf79a1cd"
+  resolved "https://github.com/davidxiao/lightweight-charts/archive/refs/tags/v3.7.0.tar.gz#d46ac79c2c2219ede6eb5495d275407399ebe3df"
   dependencies:
     fancy-canvas "0.2.2"
 

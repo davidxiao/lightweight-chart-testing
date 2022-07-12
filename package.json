@@ -11,7 +11,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "antd": "^4.21.4",
-    "lightweight-charts": "git+https://github.com/ntf/lightweight-charts.git",
+    "lightweight-charts": "https://github.com/davidxiao/lightweight-charts/archive/refs/tags/v3.7.0.tar.gz",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
